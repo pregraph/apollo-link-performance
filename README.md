@@ -20,7 +20,7 @@ yarn add apollo-link-performance
 
 ```
 import { ApolloClient, from, HTTPLink } from '@apollo/client'
-import performanceLink from 'apollo-link-performance'
+import { performanceLink } from 'apollo-link-performance'
 import analytics from '../libs/analytics'
 
 const httpLink = new HttpLink({
