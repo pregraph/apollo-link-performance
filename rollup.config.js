@@ -10,12 +10,16 @@ const config = {
   output: {
     name: pkg.name,
     file: './index.js',
+    exports: 'named',
     format: 'umd',
-    globals: {},
-    banner: `/*! [banner info] !*/`,
-    footer: '/* [footer info] */',
+    globals: {
+      '@apollo/client': ['ApolloLink', 'Operation'],
+      'react': 'React',
+    },
+    banner: `/*! ${pkg.name} - ${pkg.description} !*/`,
+    footer: '/* Copyright 2022 - Pregraph (https://www.pregraph.com) | Follow us @pregraph_ */',
   },
-  external: [],
+  external: ['ApolloLink', 'Operation', 'react'],
   plugins: [
     babel({
       exclude: 'node_modules/**',
