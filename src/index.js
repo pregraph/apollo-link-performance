@@ -1,4 +1,6 @@
 import { ApolloLink, Operation } from '@apollo/client'
+import quiktime from 'quiktime'
+import prettyBytes from 'pretty-bytes'
 
 const DEFAULT_OPTIONS = {
   debug: false,
@@ -22,16 +24,6 @@ export const performanceLink = (options = {}) => {
     onRequestComplete,
   } = { ...DEFAULT_OPTIONS, ...options }
 
-  let log = console.log
-  let prettyBytes = null
-  let quiktime = null
-
-  if (debug) {
-    log = require('ololog')
-    prettyBytes = require('pretty-bytes')
-    quiktime = require('quiktime')
-  }
-
   return new ApolloLink((operation, forward) => {
     const startTime = Date.now()
 
@@ -47,20 +39,16 @@ export const performanceLink = (options = {}) => {
         verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
 
         // Duration
-        if (time > targetDuration) {
-          log('  Time: '.black + quiktime(time).red)
-        } else {
-          log('  Time: '.black + quiktime(time).green)
-        }
+        console.log(`  Time: ${quiktime(time)}`)
 
         // Data Size
-        log('  Size: ' + prettyBytes(dataSize))
+        console.log(`  Size: ${prettyBytes(dataSize)}`)
 
         // Data
-        log('  Data: ', data)
+        console.log('  Data: ', data)
 
         // Operation
-        log('  Operation: ', operation)
+        console.log('  Operation: ', operation)
 
         console.groupEnd()
       }
