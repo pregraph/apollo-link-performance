@@ -1,6 +1,7 @@
 import { ApolloLink, Operation } from '@apollo/client'
 import quiktime from 'quiktime'
 import prettyBytes from 'pretty-bytes'
+import { isClient } from 'next-utils'
 
 const DEFAULT_OPTIONS = {
   debug: false,
@@ -24,6 +25,8 @@ export const performanceLink = (options = {}) => {
     onRequestComplete,
   } = { ...DEFAULT_OPTIONS, ...options }
 
+  const logger = isClient() && debug ? require('ololog') : console
+
   return new ApolloLink((operation, forward) => {
     const startTime = Date.now()
 
@@ -33,28 +36,28 @@ export const performanceLink = (options = {}) => {
       const time = Date.now() - startTime
       const dataSize = new TextEncoder().encode(JSON.stringify(data)).length
 
-      if (debug) {
-        try {
-          const operationType = operation.query.definitions[0].operation
-          const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(time)}`
-          verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
+      if (isClient() && debug) {
+        const operationType = operation.query.definitions[0].operation
+        const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(time)}`
+        verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
 
-          // Duration
-          console.log(`  Time: ${quiktime(time)}`)
-
-          // Data Size
-          console.log(`  Size: ${prettyBytes(dataSize)}`)
-
-          // Data
-          console.log('  Data: ', data)
-
-          // Operation
-          console.log('  Operation: ', operation)
-
-          console.groupEnd()
-        } catch (err) {
-          console.error(err)
+        // Duration
+        if (time < targetDuration) {
+          logger.log('  Time: ' + quiktime(time).green)
+        } else {
+          logger.log('  Time: ' + quiktime(time).red)
         }
+
+        // Data Size
+        logger.log(`  Size: ${prettyBytes(dataSize)}`)
+
+        // Data
+        logger.log('  Data: ', data)
+
+        // Operation
+        logger.log('  Operation: ', operation)
+
+        console.groupEnd()
       }
 
       onRequestComplete && onRequestComplete({ data, dataSize, operation, time })
