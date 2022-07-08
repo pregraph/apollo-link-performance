@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-performance",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Easily log and report on the performance of your GraphQL queries.",
   "repository": {
     "type": "git",
