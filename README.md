@@ -1,4 +1,4 @@
-# apollo-link-performance
+# ⏱ apollo-link-performance
 
 Easily tap into Apollo Client requests and log those in your performance tracking tool of choice.
 
@@ -21,7 +21,6 @@ yarn add apollo-link-performance
 ```
 import { ApolloClient, from, HTTPLink } from '@apollo/client'
 import performanceLink from 'apollo-link-performance'
-import quiktime from 'quiktime'
 import analytics from '../libs/analytics'
 
 const httpLink = new HttpLink({
