@@ -32,25 +32,29 @@ export const performanceLink = (options = {}) => {
     return forward(operation).map((data) => {
       const time = Date.now() - startTime
       const dataSize = new TextEncoder().encode(JSON.stringify(data)).length
-      const operationType = operation.query.definitions[0].operation
 
       if (debug) {
-        const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(time)}`
-        verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
+        try {
+          const operationType = operation.query.definitions[0].operation
+          const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(time)}`
+          verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
 
-        // Duration
-        console.log(`  Time: ${quiktime(time)}`)
+          // Duration
+          console.log(`  Time: ${quiktime(time)}`)
 
-        // Data Size
-        console.log(`  Size: ${prettyBytes(dataSize)}`)
+          // Data Size
+          console.log(`  Size: ${prettyBytes(dataSize)}`)
 
-        // Data
-        console.log('  Data: ', data)
+          // Data
+          console.log('  Data: ', data)
 
-        // Operation
-        console.log('  Operation: ', operation)
+          // Operation
+          console.log('  Operation: ', operation)
 
-        console.groupEnd()
+          console.groupEnd()
+        } catch (err) {
+          console.error(err)
+        }
       }
 
       onRequestComplete && onRequestComplete({ data, dataSize, operation, time })
