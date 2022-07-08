@@ -1,7 +1,8 @@
 import { ApolloLink, Operation } from '@apollo/client'
 import quiktime from 'quiktime'
 import prettyBytes from 'pretty-bytes'
-import { isClient } from 'next-utils'
+
+const isClient = () => typeof window !== undefined
 
 const DEFAULT_OPTIONS = {
   debug: false,
