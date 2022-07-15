@@ -18,7 +18,7 @@ yarn add apollo-link-performance
 
 ## How to use
 
-```
+```js
 import { ApolloClient, from, HTTPLink } from '@apollo/client'
 import { performanceLink } from 'apollo-link-performance'
 import analytics from '../libs/analytics'
@@ -30,12 +30,12 @@ const httpLink = new HttpLink({
 const client = new ApolloClient({
   link: from([
     performanceLink({
-      onRequestComplete: ({ data, dataSize, operation, time }) => {
+      onRequestComplete: ({ data, dataSize, duration, operation }) => {
         analytics.track(`GraphQL Request - Performance`, {
           dataSize,
+          duration,
           operationName: operation.operationName,
           operationType: operation.query.definitions[0].operation,
-          time,
         })
       }
     })
