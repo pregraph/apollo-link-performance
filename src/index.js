@@ -14,7 +14,7 @@ const DEFAULT_OPTIONS = {
  * performanceLink
  * Easily log and report on the performance of your GraphQL queries.
  *
- * @param {{ debug?: boolean, targetDuration?: number, verbose?: boolean, onRequestStart?: ({ operation, startTime }: { operation: Operation, startTime: number }) => void, onRequestComplete?: ({ data, dataSize, operation, time }: { data: any, dataSize: number, operation: Operation, time: number }) => void }} [options=]
+ * @param {{ debug?: boolean, targetDuration?: number, verbose?: boolean, onRequestStart?: ({ operation, startTime }: { operation: Operation, startTime: number }) => void, onRequestComplete?: ({ data, dataSize, duration, operation }: { data: any, dataSize: number, duration: number, operation: Operation }) => void }} [options=]
  * @returns ApolloLink
  */
 export const performanceLink = (options = {}) => {
@@ -32,17 +32,17 @@ export const performanceLink = (options = {}) => {
     onRequestStart && onRequestStart({ operation, startTime })
 
     return forward(operation).map((data) => {
-      const time = Date.now() - startTime
+      const duration = Date.now() - startTime
       const dataSize = new TextEncoder().encode(JSON.stringify(data)).length
 
       if (isClient() && debug) {
         try {
           const operationType = operation.query.definitions[0].operation
-          const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(time)}`
+          const groupLabel = `[PerformanceLink] : ${operationType} : ${operation.operationName} - ${quiktime(duration)}`
           verbose ? console.group(groupLabel) : console.groupCollapsed(groupLabel)
 
           // Duration
-          console.log('  Time: ' + quiktime(time))
+          console.log('  Duration: ' + quiktime(duration))
 
           // Data Size
           console.log(`  Size: ${prettyBytes(dataSize)}`)
@@ -59,7 +59,7 @@ export const performanceLink = (options = {}) => {
         }
       }
 
-      onRequestComplete && onRequestComplete({ data, dataSize, operation, time })
+      onRequestComplete && onRequestComplete({ data, dataSize, duration, operation })
 
       return data
     })

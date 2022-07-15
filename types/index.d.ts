@@ -6,11 +6,11 @@ export function performanceLink(options?: {
         operation: Operation;
         startTime: number;
     }) => void;
-    onRequestComplete?: ({ data, dataSize, operation, time }: {
+    onRequestComplete?: ({ data, dataSize, duration, operation }: {
         data: any;
         dataSize: number;
+        duration: number;
         operation: Operation;
-        time: number;
     }) => void;
 }): ApolloLink;
 import { Operation } from "@apollo/client/link/core/types";
