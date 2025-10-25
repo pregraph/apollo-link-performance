@@ -8,7 +8,14 @@
   },
   "author": "Ryan Hefner <ryan@pregraph.com> (https://www.pregraph.com)",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "apollo",
+    "apollo-client",
+    "apollo-link",
+    "performance",
+    "logging",
+    "analytics"
+  ],
   "files": [
     "dist",
     "src",
