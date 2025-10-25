@@ -8,5 +8,6 @@ docs
 site
 
 # Configs
-src/.babelrc
+.babelrc
+tsconfig.json
 rollup.config.js
