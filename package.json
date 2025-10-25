@@ -60,7 +60,8 @@
     "types": "tsc"
   },
   "peerDependencies": {
-    "@apollo/client": "3.x.x"
+    "@apollo/client": "^4.0.0",
+    "rxjs": "^7.2.0"
   },
   "dependencies": {
     "ololog": "^1.1.175",
@@ -68,7 +69,7 @@
     "quiktime": "^0.1.0"
   },
   "devDependencies": {
-    "@apollo/client": "^3.6.9",
+    "@apollo/client": "^4.0.7",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
@@ -99,6 +100,7 @@
     "rollup": "^4.52.5",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
+    "rxjs": "^7.8.2",
     "snyk": "^1.437.3",
     "typescript": "^5.9.3",
     "vitest": "^4.0.3"

@@ -15,6 +15,7 @@ const defaultOutputOptions = {
   format: 'umd',
   globals: {
     '@apollo/client': 'ApolloLink',
+    'rxjs': 'map'
   },
   banner: `/*! ${pkg.name} - ${pkg.description} (v${pkg.version}) !*/`,
   footer: '/* Copyright 2022-2025 — Pregraph (https://www.pregraph.com) | Follow us @pregraph_ */',
@@ -34,7 +35,7 @@ const defaultPlugins = [
   }),
 ]
 
-const external = ['@apollo/client']
+const external = ['@apollo/client', 'rxjs']
 
 export default [
   // UMD - Minified
