@@ -2,7 +2,7 @@ import { ApolloLink } from '@apollo/client'
 import quiktime from 'quiktime'
 import prettyBytes from 'pretty-bytes'
 
-const isClient = () => typeof window !== undefined
+const isClient = () => typeof window !== 'undefined'
 
 const DEFAULT_OPTIONS = {
   debug: false,
