@@ -10,64 +10,87 @@
   "license": "MIT",
   "keywords": [],
   "files": [
-    "es",
+    "dist",
     "src",
     "types",
-    "umd",
-    "index.js"
+    "LICENSE",
+    "README.md"
   ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "directories": {
     "lib": "/src"
   },
-  "main": "index.js",
-  "module": "es/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.mjs",
+  "jsnext:main": "dist/esm/index.mjs",
   "types": "types",
   "scripts": {
-    "clean": "rimraf index.js es types umd",
+    "clean": "rimraf dist",
     "prebuild": "yarn clean",
-    "build": "node ./tools/build.js && yarn types",
+    "build": "rollup -c --bundleConfigAsCjs",
     "watch": "babel ./src -d . --ignore __mocks__,__tests__,**/*.test.js --watch",
     "prepare": "yarn build",
     "prepublishOnly": "yarn build",
-    "push-release": "git push origin master && git push --tags",
+    "prettier": "prettier -c",
+    "push-release": "git push origin main && git push --tags",
     "dtslint": "dtslint types",
-    "test": "snyk test && jest",
-    "test:ci": "jest",
+    "test": "snyk test && vitest run",
+    "test:ci": "vitest run --coverage",
     "types": "tsc"
   },
   "peerDependencies": {
-    "@apollo/client": ">=3"
+    "@apollo/client": "3.x.x"
   },
   "dependencies": {
     "ololog": "^1.1.175",
-    "pretty-bytes": "^5.5.0",
+    "pretty-bytes": "^7.1.0",
     "quiktime": "^0.1.0"
   },
   "devDependencies": {
     "@apollo/client": "^3.6.9",
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^22.0.1",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@types/react": "^18.0.14",
+    "@babel/runtime": "^7.28.4",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-commonjs": "^28.0.9",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@vitest/coverage-v8": "^4.0.3",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^28.0.3",
+    "babel-jest": "^30.2.0",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-polyfill": "^6.26.0",
     "dtslint": "^4.0.6",
     "graphql": "^16.5.0",
-    "gzip-size": "6.0.0",
-    "jest": "^28.0.3",
-    "regenerator-runtime": "^0.13.7",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.36.1",
+    "gzip-size": "^7.0.0",
+    "jest": "^30.2.0",
+    "regenerator-runtime": "^0.14.1",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.52.5",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
     "snyk": "^1.437.3",
-    "typescript": "^4.2.3"
-  }
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.3"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
