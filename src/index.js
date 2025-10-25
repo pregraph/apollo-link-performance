@@ -1,6 +1,7 @@
 import { ApolloLink } from '@apollo/client'
-import quiktime from 'quiktime'
 import prettyBytes from 'pretty-bytes'
+import quiktime from 'quiktime'
+import { map } from 'rxjs'
 
 const isClient = () => typeof window !== 'undefined'
 
@@ -31,7 +32,7 @@ export const performanceLink = (options = {}) => {
 
     onRequestStart && onRequestStart({ operation, startTime })
 
-    return forward(operation).map((data) => {
+    return forward(operation).pipe(map((data) => {
       const duration = Date.now() - startTime
       const dataSize = new TextEncoder().encode(JSON.stringify(data)).length
 
@@ -62,6 +63,6 @@ export const performanceLink = (options = {}) => {
       onRequestComplete && onRequestComplete({ data, dataSize, duration, operation })
 
       return data
-    })
+    }))
   })
 }
