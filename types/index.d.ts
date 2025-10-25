@@ -1,6 +1,6 @@
 import { ApolloLink, type Operation } from '@apollo/client'
 
-export type performanceLink = (options?: {
+export declare const performanceLink: (options?: {
   debug?: boolean
   targetDuration?: number
   verbose?: boolean
